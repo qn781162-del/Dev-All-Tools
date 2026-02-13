@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Utilities</title>
+    <style>
+        :root {
+            --pink-bg: #ffe4e1; 
+            --card-bg: #151515; 
+            --text-main: #000000;
+            --text-card: #ffffff;
+            --btn-yellow: #ffcc00; 
+            --btn-yellow-hover: #e6b800; 
+            --btn-text: #000000;
+        }
+
+        body { 
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--pink-bg); 
+            color: var(--text-main); 
+            margin: 0; padding: 10px;
+            box-sizing: border-box;
+            min-height: 100vh;
+        }
+
+        h1 { 
+            font-size: 1.1rem; text-align: center; color: #333; 
+            margin: 10px 0 15px 0; letter-spacing: 1px; text-transform: uppercase;
+            font-weight: 800;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 12px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .card-title {
+            font-size: 0.7rem; font-weight: bold; color: #aaa;
+            margin-bottom: 8px; text-transform: uppercase;
+            border-bottom: 1px solid #333; padding-bottom: 5px;
+            display: flex; align-items: center; gap: 5px;
+        }
+
+        .btn {
+            background: var(--btn-yellow);
+            color: var(--btn-text);
+            border: none; 
+            border-radius: 6px; 
+            padding: 10px 5px;
+            font-size: 0.75rem; 
+            font-weight: bold; 
+            cursor: pointer;
+            text-align: center; 
+            text-decoration: none;
+            margin-bottom: 6px; 
+            width: 100%;
+            display: block; 
+            box-sizing: border-box;
+            transition: transform 0.1s, background 0.2s;
+        }
+        
+        .btn:active { 
+            transform: scale(0.96);
+            background: var(--btn-yellow-hover);
+        }
+
+        .box {
+            background: #000; border: 1px solid #333;
+            padding: 8px; border-radius: 5px; font-family: monospace;
+            font-size: 0.7rem; color: #0f0; margin-bottom: 6px;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+
+        input {
+            background: #000; border: 1px solid #444; color: #fff;
+            padding: 8px; border-radius: 5px; width: 100%;
+            font-size: 0.8rem; box-sizing: border-box; margin-bottom: 6px;
+        }
+
+        .bulk-group { grid-column: span 2; } 
+        #log { font-size: 0.65rem; color: #888; margin-bottom: 5px; }
+
+        #dl {
+            background: transparent;
+            color: var(--btn-yellow);
+            border: 1px solid var(--btn-yellow);
+            margin-top: 5px;
+        }
+
+        .toast {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            background: #000; color: #fff; padding: 6px 15px;
+            border-radius: 20px; font-size: 0.75rem; font-weight: bold;
+            display: none; z-index: 9999; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+
+<div id="toast" class="toast">Đã Copy! ✅</div>
+
+<h1>Minh Quang</h1>
+
+<div class="grid-container">
+    
+    <div class="card">
+        <div class="card-title">📥 Downloads</div>
+        <a href="https://www.mediafire.com/file/hburo7hoq0h04uk/Roblox_-_Arceus_X_NEO_2.0.1_%2528FIXED%2529.apk/file" class="btn" target="_blank">Arceus Neo</a>
+        <a href="https://www.mediafire.com/file/z60g22lyvmq5tee/Android+ID+Changer+V4" class="btn" target="_blank">ID Changer</a>
+        <a href="https://www.mediafire.com/file/yk8iiivlxktr4an/ru.zdevs.zarchiver_1.0.10.apk/file" class="btn" target="_blank">ZArchiver</a>
+    </div>
+
+    <div class="card">
+        <div class="card-title">🔑 Script & ID</div>
+        <div class="box" id="idV">x85929j7cef6q4g4</div>
+        <button class="btn" onclick="copy('idV')">COPY ID</button>
+        <div class="box" id="scV">loadstring(game:...)</div>
+        <button class="btn" onclick="copy('scV')">COPY SCRIPT</button>
+    </div>
+
+    <div class="card">
+        <div class="card-title">💬 Webhook</div>
+        <input type="text" id="uMsg" placeholder="Nhập tin nhắn...">
+        <button class="btn" onclick="sendMsg()">GỬI DISCORD</button>
+    </div>
+
+    <div class="card">
+        <div class="card-title">🎲 Random</div>
+        <div class="box" id="rC">------</div>
+        <button class="btn" onclick="gC()">Ramdom-Usermame</button>
+        <div class="box" id="rP">********</div>
+        <button class="btn" onclick="gP()">Ramdom-password</button>
+    </div>
+
+    <div class="card bulk-group">
+        <div class="card-title">🚀 Bulk Generator</div>
+        <div style="display: flex; gap: 8px;">
+            <input type="number" id="qty" value="100" style="flex: 1;">
+            <button class="btn" style="flex: 2; margin-bottom: 0;" onclick="bulk()">Fast Random</button>
+        </div>
+        <div id="log" style="margin-top: 8px;">> Trạng thái: Sẵn sàng...</div>
+        <button id="dl" class="btn" style="display:none;" onclick="download()">BẤM VÀO ĐÂY ĐỂ TẢI FILE .TXT</button>
+    </div>
+
+</div>
+
+<script>
+    const WEB_URL = "https://discord.com/api/webhooks/1467088562322276568/4tcdqOd-ejFO5ndT_x4eNwBfAtfttKz61qhZUQqGTW5fsruLvb6cQIpdIStmU2TXdzcq";
+    let bData = "";
+
+    function toast(m) {
+        const t = document.getElementById('toast');
+        t.innerText = m; t.style.display = 'block';
+        setTimeout(() => t.style.display = 'none', 1500);
+    }
+
+    function copy(id) {
+        let txt = document.getElementById(id).innerText;
+        if(id === 'scV') txt = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/qn781162-del/Roblox/refs/heads/main/Kaitun.lua"))()';
+        navigator.clipboard.writeText(txt); 
+        toast("Đã Copy thành công!");
+    }
+
+    function sendMsg() {
+        const i = document.getElementById('uMsg');
+        if(!i.value) return;
+        fetch(WEB_URL, { 
+            method: 'POST', 
+            headers: {'Content-Type': 'application/json'}, 
+            body: JSON.stringify({content: i.value}) 
+        });
+        toast("Đã gửi tin nhắn! 🚀"); 
+        i.value = "";
+    }
+
+    const rd = (s) => s[Math.floor(Math.random() * s.length)];
+    
+    function mkC() {
+        let l="", a="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        for(let i=0;i<6;i++) l+=rd(a);
+        return l + Math.floor(100+Math.random()*899);
+    }
+
+    function mkP() {
+        let c="abcdefghijklmnopqrstuvwxyz0123456789";
+        let r=""; for(let i=0;i<10;i++) r+=rd(c);
+        return r;
+    }
+
+    function gC() { document.getElementById('rC').innerText = mkC(); }
+    function gP() { document.getElementById('rP').innerText = mkP(); }
+
+    function bulk() {
+        let q = document.getElementById('qty').value;
+        if(q > 5000) q = 5000;
+        bData = " Username|Password\n";
+        for(let i=0; i<q; i++) bData += `${mkC()}|${mkP()}\n`;
+        document.getElementById('log').innerText = `✅ Đã tạo xong ${q} tài khoản.`;
+        document.getElementById('dl').style.display = 'block';
+    }
+
+    function download() {
+        const b = new Blob([bData], {type: 'text/plain'});
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(b); 
+        a.download = 'Account_password.txt'; 
+        a.click();
+    }
+</script>
+
+</body>
+</html>

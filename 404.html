@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Không tìm thấy trang</title>
+    <style>
+        /* Tông màu chủ đạo: Vàng (#FFD700) và Đen (#000) */
+        body {
+            background-color: #000;
+            color: #FFD700;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .error-container {
+            border: 2px solid #FFD700;
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px #FFD700; /* Hiệu ứng phát sáng */
+            background: rgba(255, 215, 0, 0.05);
+        }
+
+        h1 {
+            font-size: 100px;
+            margin: 0;
+            letter-spacing: 10px;
+            text-shadow: 0 0 10px #FFD700;
+        }
+
+        h2 {
+            font-size: 24px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 16px;
+            color: #ccc;
+        }
+
+        /* Nút quay lại trang chủ */
+        .btn-back {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 30px;
+            background-color: #FFD700;
+            color: #000;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .btn-back:hover {
+            background-color: #fff;
+            box-shadow: 0 0 15px #fff;
+            transform: translateY(-2px);
+        }
+
+        #timer {
+            font-weight: bold;
+            font-size: 20px;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="error-container">
+        <h1>404</h1>
+        <h2>LỖI: TRANG KHÔNG TỒN TẠI</h2>
+        <p>Đường dẫn này không đúng hoặc đã bị xóa.</p>
+        
+        <p>Hệ thống sẽ tự động đưa bạn về <b>Trang chủ</b> sau <span id="timer">10</span> giây...</p>
+        
+        <a href="index.html" class="btn-back">Quay về index.html ngay</a>
+    </div>
+
+    <script>
+        // Thời gian đếm ngược (giây)
+        let count = 10;
+        const timerElement = document.getElementById('timer');
+
+        const countdown = setInterval(() => {
+            count--;
+            timerElement.textContent = count;
+
+            if (count <= 0) {
+                clearInterval(countdown);
+                // Chuyển hướng về file index.html
+                window.location.href = "index.html"; 
+            }
+        }, 1000);
+    </script>
+
+</body>
+</html>
